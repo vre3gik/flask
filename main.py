@@ -183,5 +183,84 @@ def astronaut_selection():
         return "Форма отправлена"
 
 
+@app.route("/choice/<planet_name>")
+def choice(planet_name):
+    style = ["alert-success", "alert-dark", "alert-danger", "alert-warning"]
+    opisanie = {"марс": [("Эта планета близка к Земле;", 2),
+                         ("На ней много необходимых ресурсов;", 1),
+                         ("На ней есть вода и атмосфера;", 2),
+                         ("На есть небольшое магнитное поле;", 4),
+                         ("Наконец, она просто красива!", 3)],
+                "земля": [("Эта наша любимая планета;", 4),
+                          ("На ней мы живем;", 2),
+                          ("Она красива;", 3),
+                          ("И неповторима;", 1),
+                          ("И прекрасна!", 2)],
+                "юпитер": [("Эта планета находится после марса;", 3),
+                           ("Она очень интересна;", 4),
+                           ("И неизвестна;", 1),
+                           ("Понятия не имею, что сюда написать", 4),
+                           ("Хорошая планета!", 2)],
+                "сатурн": [("Сатурн находится после юпитера;", 2),
+                           ("Это очень большая планета;", 3),
+                           ("О ней я ничего не знаю;", 1),
+                           ("На ней есть что то", 4),
+                           ("Не очень хорошая планета", 3)],
+                "уран": [("Эта планета находится после сатурна;", 2),
+                         ("Она чуть больше, чем земля;", 3),
+                         ("На есть небольшое магнитное поле", 1),
+                         ("Уран это хим элемент", 2),
+                         ("2,9 млрд км от земли", 4)],
+                "нептун": [("Эта планета рядом с ураном;", 4),
+                           ("На нём очень холодно;", 4),
+                           ("На есть небольшое магнитное поле;", 1),
+                           ("Эта планета дальше всех от солнца!", 2),
+                           ("Диаметр превышает земной в 3,9 раза!", 3)],
+                "венера": [("Эта планета рядом с землей;", 3),
+                           ("Есть песня ты венера я юпитер ты москва я питер :);", 4),
+                           ("На есть магнитное поле;", 1),
+                           ("Она находится почти ближе всех к солнцу!", 3),
+                           ("Радиус: 6 051,8 км", 2)],
+                "меркурий": [("Эта планета рядом с венерой;", 2),
+                             ("На ней жарко;", 4),
+                             ("На есть небольшое магнитное поле;", 1),
+                             ("Эта планета ближе всех к солнцу!;", 3),
+                             ("Конец!", 1)]}
+    if planet_name.lower() not in opisanie:
+        return f"<h2>Возможно вы ввели название несуществующей планеты({planet_name})</h2>"
+    res_opesanie = opisanie[planet_name.lower()]
+    styles = list(map(lambda x: style[x[1] - 1], res_opesanie))
+    return f'''<!doctype html>
+                    <html lang="en">
+                      <head>
+                        <meta charset="utf-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                        <link rel="stylesheet" 
+                        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+                        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" 
+                        crossorigin="anonymous">
+                        <title>Варианты выбора</title>
+                      </head>
+                      <body>
+                        <h1>Мое предложение: {planet_name}</h1>
+                        <div class="alert {styles[0]}" role="alert">
+                         <h5>{res_opesanie[0][0]}</h5>
+                        </div>
+                        <div class="alert {styles[1]}" role="alert">
+                         <h5>{res_opesanie[1][0]}</h5>
+                        </div>
+                        <div class="alert {styles[2]}" role="alert">
+                         <h5>{res_opesanie[2][0]}</h5>
+                        </div>
+                        <div class="alert {styles[3]}" role="alert">
+                         <h5>{res_opesanie[3][0]}</h5>
+                        </div>
+                        <div class="alert {styles[4]}" role="alert">
+                         <h5>{res_opesanie[4][0]}</h5>
+                        </div>
+                      </body>
+                    </html>'''
+
+
 if __name__ == "__main__":
     app.run(port=8080, host="127.0.0.1")
